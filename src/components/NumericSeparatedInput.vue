@@ -2,6 +2,7 @@
     <div>
         <input
         v-for="(digit,index) in digits"
+        ref="digitInput"
         :key="index"
         v-model="inputValue[index]"
         autocomplete="off"
@@ -31,18 +32,18 @@ export default {
   },
   methods: {
     backspace(index, e) {
-      if (e.keyCode === 8 && e.target.value === '') this.$refs.singleDigit[Math.max(0, index - 1)].focus();
+      if (e.keyCode === 8 && e.target.value === '') this.$refs.digitInput[Math.max(0, index - 1)].focus();
     },
     onInput(index) {
       const [first, ...rest] = this.verifyCode[index].replace(/[^0-9]/g, '');
       this.verifyCode[index] = first ?? ''; // the `??` '' is for the backspace usecase
-      const lastInputBox = index === this.$refs.singleDigit.length - 1;
+      const lastInputBox = index === this.$refs.digitInput.length - 1;
       const insertedContent = first !== undefined;
       if (insertedContent && !lastInputBox) {
         // continue to input the rest of the string
-        this.$refs.singleDigit[index + 1].focus();
-        this.$refs.singleDigit[index + 1].value = rest.join('');
-        this.$refs.singleDigit[index + 1].dispatchEvent(new Event('input'));
+        this.$refs.digitInput[index + 1].focus();
+        this.$refs.digitInput[index + 1].value = rest.join('');
+        this.$refs.digitInput[index + 1].dispatchEvent(new Event('input'));
       }
       const code = this.verifyCode.map((value) => value).join('');
       this.isInputFocused = code.length !== 4;
