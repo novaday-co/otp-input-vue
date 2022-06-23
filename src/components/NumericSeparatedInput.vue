@@ -7,7 +7,6 @@
         v-model="inputValue[index]"
         autocomplete="off"
         placeholder="-"
-        maxlength="1"
         @focus="focusOn"
         @blur="focusOff"
         @input="onInput(index, $event)"
@@ -36,7 +35,7 @@ export default {
     },
     onInput(index) {
       const [first, ...rest] = this.inputValue[index].replace(/[^0-9]/g, '');
-      // this.inputValue[index] = (first === null || first === undefined) ? '' : first;
+      this.inputValue[index] = (first === null || first === undefined) ? '' : first;
       // this.inputValue[index] = first ?? ''; // the `??` '' is for the backspace usecase
       const lastInputBox = index === this.$refs.digitInput.length - 1;
       const insertedContent = first !== undefined;
