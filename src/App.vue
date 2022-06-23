@@ -1,17 +1,17 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <numeric-separated-input></numeric-separated-input>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue';
+import NumericSeparatedInput from './components/NumericSeparatedInput.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld,
+    NumericSeparatedInput,
   },
 };
 </script>
