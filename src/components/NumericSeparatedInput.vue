@@ -46,7 +46,7 @@ export default {
         this.$refs.digitInput[index + 1].dispatchEvent(new Event('input'));
       }
       const code = this.inputValue.map((value) => value).join('');
-      this.isInputFocused = code.length !== 4;
+      this.isInputFocused = code.length !== this.digits;
       this.$emit('code', code);
     },
     focusOn() {
