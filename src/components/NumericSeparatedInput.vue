@@ -1,18 +1,18 @@
 <template>
-  <div :class="[cssClasses]" :style="[gapStyles]">
+  <div :class="[cssClasses]" :style="inputsWrapperStyle">
     <input
-      v-for="(digit, index) in digits"
+      v-for="(digitInput, index) in digits"
       ref="digitInput"
-      :key="index"
+      :key='id+index'
       v-model="inputValue[index]"
       class="verify-input"
       autocomplete="off"
       placeholder="-"
-      @focus="focusOn"
+      @focus="onFocus"
       @blur="focusOff"
       @input="onInput(index, $event)"
       @keydown="backspace(index, $event)"
-      :style="[radiusStyles, borderColorStyles]"
+      :style="singleInputStyle"
     />
   </div>
 </template>
@@ -21,13 +21,17 @@
 export default {
   name: 'NumericSeparatedInput',
   props: {
+    id: {
+      type: String,
+      default: 'verify_input',
+    },
     digits: {
       type: Number,
       default: 5,
     },
     type: {
       type: String,
-      default: 'seperated',
+      default: 'separated',
     },
     radius: {
       type: String,
@@ -35,35 +39,57 @@ export default {
     },
     borderColor: {
       type: String,
-      default: 'black',
+      default: '#ECECEC',
     },
     gap: {
       type: String,
-      default: '10',
+      default: '20',
+    },
+    width: {
+      type: Number,
+      default: 48,
+    },
+    height: {
+      type: Number,
+      default: 48,
     },
   },
   computed: {
     cssClasses() {
-      if (this.type === 'seperated') {
-        return 'seperated-classes';
+      if (this.type === 'separated') {
+        return 'separated-classes';
       }
       return 'group-classes';
     },
-    radiusStyles() {
-      if (this.type === 'seperated') {
-        return `border-radius: ${this.radius}px;`;
+    inputsWrapperStyle() {
+      if (this.type === 'separated') {
+        const styles = {
+          gap: `${this.gap}px`,
+        };
+        return styles;
+      } if (this.type === 'group') {
+        const styles = {
+          'border-radius': `${this.radius}px`,
+          'border-color': `${this.borderColor}`,
+        };
+        return styles;
       }
       return '';
     },
-    borderColorStyles() {
-      if (this.type === 'seperated') {
-        return `border-color: ${this.borderColor};`;
-      }
-      return '';
-    },
-    gapStyles() {
-      if (this.type === 'seperated') {
-        return `gap: ${this.gap}px;`;
+    singleInputStyle() {
+      if (this.type === 'separated') {
+        const styles = {
+          'border-radius': `${this.radius}px`,
+          'border-color': `${this.borderColor}`,
+          width: `${this.width}px`,
+          height: `${this.height}px`,
+        };
+        return styles;
+      } if (this.type === 'group') {
+        const styles = {
+          'border-radius': `${this.radius}px`,
+        };
+        return styles;
       }
       return '';
     },
@@ -96,7 +122,7 @@ export default {
       this.isInputFocused = code.length !== this.digits;
       this.$emit('code', code);
     },
-    focusOn() {
+    onFocus() {
       this.isInputFocused = true;
     },
     focusOff() {
@@ -106,22 +132,20 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="css" scoped>
 div.group-classes {
+  direction: ltr;
   font-weight: 600;
+  margin: 0 auto;
+  width: max-content;
+  border-width: 1px;
+  border-style: solid;
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 0.15s;
   transition-duration: 0.3s;
-  direction: ltr;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid black;
 }
 .verify-input {
-  height: 3rem;
-  width: 3rem;
   text-align: center;
   font-weight: 600;
   transition-property: all;
@@ -130,20 +154,14 @@ div.group-classes {
   transition-duration: 0.3s;
   direction: ltr;
 }
-input:focus {
-  outline: none;
-}
-input {
-  border: none;
-}
 
-div.seperated-classes {
+div.separated-classes {
   direction: ltr;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-div.seperated-classes .verify-input {
+div.separated-classes .verify-input {
   border-width: 1px;
   border-style: solid;
 }
