@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <numeric-separated-input></numeric-separated-input>
+    <img alt="Vue logo" src="./assets/logo.png" />
+    <numeric-separated-input />
   </div>
 </template>
 
