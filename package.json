@@ -1,5 +1,5 @@
 {
-  "name": "numeric-separated-input",
+  "name": "otp-input-vue",
   "version": "0.1.0",
   "private": true,
   "scripts": {

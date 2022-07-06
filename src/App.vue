@@ -1,17 +1,17 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png" />
-    <numeric-separated-input />
+    <otp-input mode="group" bgColor='red'/>
   </div>
 </template>
 
 <script>
-import NumericSeparatedInput from './components/NumericSeparatedInput.vue';
+import OtpInput from './components/OtpInput.vue';
 
 export default {
   name: 'App',
   components: {
-    NumericSeparatedInput,
+    OtpInput,
   },
 };
 </script>

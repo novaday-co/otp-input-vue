@@ -1,13 +1,14 @@
 <template>
-  <div :class="[cssClasses]" :style="inputsWrapperStyle">
+  <div :class="[modeClass]" :style="inputsWrapperStyle" :id="id">
     <input
       v-for="(digitInput, index) in digits"
       ref="digitInput"
-      :key='id+index'
+      :key="id + index"
       v-model="inputValue[index]"
-      class="verify-input"
+      class="otp-input"
       autocomplete="off"
       placeholder="-"
+      :disabled="isDisabled"
       @focus="onFocus"
       @blur="focusOff"
       @input="onInput(index, $event)"
@@ -19,17 +20,17 @@
 
 <script>
 export default {
-  name: 'NumericSeparatedInput',
+  name: 'OtpInput',
   props: {
     id: {
       type: String,
-      default: 'verify_input',
+      default: 'vi',
     },
     digits: {
       type: Number,
       default: 5,
     },
-    type: {
+    mode: {
       type: String,
       default: 'separated',
     },
@@ -40,6 +41,10 @@ export default {
     borderColor: {
       type: String,
       default: '#ECECEC',
+    },
+    bgColor: {
+      type: String,
+      default: 'transparent',
     },
     gap: {
       type: String,
@@ -53,41 +58,52 @@ export default {
       type: Number,
       default: 48,
     },
+    isDisabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
-    cssClasses() {
-      if (this.type === 'separated') {
-        return 'separated-classes';
+    modeClass() {
+      if (this.mode === 'group') {
+        return 'group-classes single-digit-round-group-mode';
       }
-      return 'group-classes';
+      return 'separated-classes';
     },
     inputsWrapperStyle() {
-      if (this.type === 'separated') {
+      if (this.mode === 'separated') {
         const styles = {
           gap: `${this.gap}px`,
         };
         return styles;
-      } if (this.type === 'group') {
+      }
+      if (this.mode === 'group') {
         const styles = {
           'border-radius': `${this.radius}px`,
           'border-color': `${this.borderColor}`,
+          // 'background-color': this.bgColor,
         };
         return styles;
       }
       return '';
     },
     singleInputStyle() {
-      if (this.type === 'separated') {
+      if (this.mode === 'separated') {
         const styles = {
+          'background-color': this.bgColor,
           'border-radius': `${this.radius}px`,
           'border-color': `${this.borderColor}`,
           width: `${this.width}px`,
           height: `${this.height}px`,
         };
         return styles;
-      } if (this.type === 'group') {
+      }
+      if (this.mode === 'group') {
         const styles = {
-          'border-radius': `${this.radius}px`,
+          // 'border-radius': `${this.radius}px`,
+          'background-color': this.bgColor,
+          border: 'none',
+          height: `${this.height}px`,
         };
         return styles;
       }
@@ -145,7 +161,7 @@ div.group-classes {
   transition-duration: 0.15s;
   transition-duration: 0.3s;
 }
-.verify-input {
+input.otp-input {
   text-align: center;
   font-weight: 600;
   transition-property: all;
@@ -154,6 +170,9 @@ div.group-classes {
   transition-duration: 0.3s;
   direction: ltr;
 }
+input.otp-input:disabled {
+  background-color: #ECECEC!important
+}
 
 div.separated-classes {
   direction: ltr;
@@ -161,8 +180,14 @@ div.separated-classes {
   align-items: center;
   justify-content: center;
 }
-div.separated-classes .verify-input {
+div.separated-classes .otp-input {
   border-width: 1px;
   border-style: solid;
+}
+.single-digit-round-group-mode:first-child{
+border-radius: 10px 0px 0px 10px;
+}
+.single-digit-round-group-mode:last-child{
+border-radius: 0px 10px 10px 0px;
 }
 </style>
