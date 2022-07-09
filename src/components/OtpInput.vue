@@ -5,7 +5,7 @@
       ref="digitInput"
       :key="id + index"
       v-model="inputValue[index]"
-      class="otp-input"
+      class="otp-input single-digit-round-group-mode"
       autocomplete="off"
       placeholder="-"
       :disabled="isDisabled"
@@ -66,7 +66,7 @@ export default {
   computed: {
     modeClass() {
       if (this.mode === 'group') {
-        return 'group-classes single-digit-round-group-mode';
+        return 'group-classes';
       }
       return 'separated-classes';
     },
@@ -81,7 +81,6 @@ export default {
         const styles = {
           'border-radius': `${this.radius}px`,
           'border-color': `${this.borderColor}`,
-          // 'background-color': this.bgColor,
         };
         return styles;
       }
@@ -171,7 +170,7 @@ input.otp-input {
   direction: ltr;
 }
 input.otp-input:disabled {
-  background-color: #ECECEC!important
+  background-color: #ececec !important;
 }
 
 div.separated-classes {
@@ -184,10 +183,12 @@ div.separated-classes .otp-input {
   border-width: 1px;
   border-style: solid;
 }
-.single-digit-round-group-mode:first-child{
-border-radius: 10px 0px 0px 10px;
+.single-digit-round-group-mode:first-child {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
 }
-.single-digit-round-group-mode:last-child{
-border-radius: 0px 10px 10px 0px;
+.single-digit-round-group-mode:last-child {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 </style>
