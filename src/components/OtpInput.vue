@@ -1,4 +1,5 @@
 <template>
+<div class="otp-wrapper">
   <div :class="[modeClass]" :style="inputsWrapperStyle" :id="id">
     <input
       v-for="(digitInput, index) in digits"
@@ -13,9 +14,11 @@
       @blur="focusOff"
       @input="onInput(index, $event)"
       @keydown="backspace(index, $event)"
-      :style="singleInputStyle"
+      :style="[singleInputStyle, cssVars]"
     />
   </div>
+      <span><slot name="errorMessage"></slot></span>
+</div>
 </template>
 
 <script>
@@ -63,6 +66,12 @@ export default {
       default: false,
     },
   },
+  data() {
+    return {
+      inputValue: [],
+      isInputFocused: false,
+    };
+  },
   computed: {
     modeClass() {
       if (this.mode === 'group') {
@@ -99,7 +108,6 @@ export default {
       }
       if (this.mode === 'group') {
         const styles = {
-          // 'border-radius': `${this.radius}px`,
           'background-color': this.bgColor,
           border: 'none',
           height: `${this.height}px`,
@@ -108,12 +116,11 @@ export default {
       }
       return '';
     },
-  },
-  data() {
-    return {
-      inputValue: [],
-      isInputFocused: false,
-    };
+    cssVars() {
+      return {
+        '--border-radius': `${this.radius}px`,
+      };
+    },
   },
   methods: {
     backspace(index, e) {
@@ -148,6 +155,10 @@ export default {
 </script>
 
 <style lang="css" scoped>
+
+div.otp-wrapper{
+  width: max-content;
+}
 div.group-classes {
   direction: ltr;
   font-weight: 600;
@@ -184,11 +195,11 @@ div.separated-classes .otp-input {
   border-style: solid;
 }
 .single-digit-round-group-mode:first-child {
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
+  border-top-left-radius: var(--border-radius);
+  border-bottom-left-radius: var(--border-radius);
 }
 .single-digit-round-group-mode:last-child {
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-top-right-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
 }
 </style>

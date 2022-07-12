@@ -1,7 +1,11 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <otp-input mode="group" bgColor='#ECECEC'/>
+    <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;">
+      <img alt="Vue logo" src="./assets/logo.png" />
+      <otp-input >
+        <template #errorMessage> there is an error </template>
+      </otp-input>
+    </div>
   </div>
 </template>
 
