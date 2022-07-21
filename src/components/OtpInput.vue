@@ -1,12 +1,13 @@
 <template>
 <div class="otp-wrapper">
-  <div :class="[modeClass]" :style="inputsWrapperStyle" :id="id">
+  <div :class="[modeClass,wrapperInputHandler]" :style="inputsWrapperStyle" :id="id">
     <input
       v-for="(digitInput, index) in digits"
       ref="digitInput"
       :key="id + index"
       v-model="inputValue[index]"
       class="otp-input single-digit-round-group-mode"
+      :class=singleInputHandler
       autocomplete="off"
       placeholder="-"
       :disabled="isDisabled"
@@ -17,7 +18,7 @@
       :style="[singleInputStyle, cssVars]"
     />
   </div>
-      <span><slot name="errorMessage"></slot></span>
+      <span v-if="hasError" :class="errorClass"><slot name="errorMessage"></slot></span>
 </div>
 </template>
 
@@ -41,27 +42,27 @@ export default {
       type: String,
       default: '10',
     },
-    borderColor: {
+    errorClass: {
       type: String,
-      default: '#ECECEC',
+      default: '',
     },
-    bgColor: {
+    singleInputClass: {
       type: String,
-      default: 'transparent',
+      default: '',
+    },
+    wrapperInputClass: {
+      type: String,
+      default: '',
     },
     gap: {
       type: String,
       default: '20',
     },
-    width: {
-      type: Number,
-      default: 48,
-    },
-    height: {
-      type: Number,
-      default: 48,
-    },
     isDisabled: {
+      type: Boolean,
+      default: false,
+    },
+    hasError: {
       type: Boolean,
       default: false,
     },
@@ -89,7 +90,6 @@ export default {
       if (this.mode === 'group') {
         const styles = {
           'border-radius': `${this.radius}px`,
-          'border-color': `${this.borderColor}`,
         };
         return styles;
       }
@@ -98,28 +98,41 @@ export default {
     singleInputStyle() {
       if (this.mode === 'separated') {
         const styles = {
-          'background-color': this.bgColor,
           'border-radius': `${this.radius}px`,
-          'border-color': `${this.borderColor}`,
-          width: `${this.width}px`,
-          height: `${this.height}px`,
         };
         return styles;
       }
-      if (this.mode === 'group') {
-        const styles = {
-          'background-color': this.bgColor,
-          border: 'none',
-          height: `${this.height}px`,
-        };
-        return styles;
-      }
+      // if (this.mode === 'group') {
+      //   const styles = {
+      //     'background-color': this.bgColor,
+      //     border: 'none',
+      //     height: `${this.height}px`,
+      //   };
+      //   return styles;
+      // }
       return '';
     },
     cssVars() {
       return {
         '--border-radius': `${this.radius}px`,
       };
+    },
+    singleInputHandler() {
+      if (this.mode === 'separated') {
+        return this.singleInputClass ? this.singleInputClass : 'defualt-single-Input-separated';
+      } if (this.mode === 'group') {
+        return this.singleInputClass ? this.singleInputClass : 'defualt-single-Input-group';
+      }
+      return '';
+    },
+    wrapperInputHandler() {
+      // if (this.mode === 'separated') {
+      //   return this.singleInputClass ? this.singleInputClass : 'defualt-single-Input-separated';
+      // }
+      if (this.mode === 'group') {
+        return this.wrapperInputClass ? this.wrapperInputClass : 'defualt-wrapper-Input';
+      }
+      return '';
     },
   },
   methods: {
@@ -161,7 +174,6 @@ div.otp-wrapper{
 }
 div.group-classes {
   direction: ltr;
-  font-weight: 600;
   margin: 0 auto;
   width: max-content;
   border-width: 1px;
@@ -201,5 +213,23 @@ div.separated-classes .otp-input {
 .single-digit-round-group-mode:last-child {
   border-top-right-radius: var(--border-radius);
   border-bottom-right-radius: var(--border-radius);
+}
+input.defualt-single-Input-separated{
+background-color: transparent;
+border-color: #ECECEC;
+width: 48px;
+height: 48px;
+}
+input.defualt-single-Input-group{
+background-color: transparent;
+width: 48px;
+height: 48px;
+border: none;
+}
+input.defualt-wrapper-Input{
+border-color: red;
+width: 48px;
+height: 48px;
+border: none;
 }
 </style>
