@@ -1,25 +1,27 @@
 <template>
-<div class="otp-wrapper">
-  <div :class="[modeClass,wrapperInputHandler]" :style="inputsWrapperStyle" :id="id">
-    <input
-      v-for="(digitInput, index) in digits"
-      ref="digitInput"
-      :key="id + index"
-      v-model="inputValue[index]"
-      class="otp-input single-digit-round-group-mode"
-      :class=singleInputHandler
-      autocomplete="off"
-      placeholder="-"
-      :disabled="isDisabled"
-      @focus="onFocus"
-      @blur="focusOff"
-      @input="onInput(index, $event)"
-      @keydown="backspace(index, $event)"
-      :style="[singleInputStyle, cssVars]"
-    />
+  <div class="vue-otp-input">
+    <div class="otp-wrapper" :class="wrapperClassHandler" :style="wrapperStyle" :id="id">
+      <input
+        v-for="(digitInput, index) in digits"
+        ref="digitInput"
+        :key="id + index"
+        v-model="inputValue[index]"
+        class="otp-input"
+        :class="inputClassHandler"
+        autocomplete="off"
+        placeholder="-"
+        :disabled="isDisabled"
+        @focus="onFocus"
+        @blur="focusOff"
+        @input="onInput(index, $event)"
+        @keydown="backspace(index, $event)"
+        :style="inputStyle"
+      />
+    </div>
+    <span v-if="hasError" :class="errorClassHandler"
+      ><slot name="errorMessage"></slot
+    ></span>
   </div>
-      <span v-if="hasError" :class="errorClass"><slot name="errorMessage"></slot></span>
-</div>
 </template>
 
 <script>
@@ -36,33 +38,45 @@ export default {
     },
     mode: {
       type: String,
-      default: 'separated',
+      default: 'separate',
     },
     radius: {
       type: String,
       default: '10',
     },
-    errorClass: {
+    separateInputClass: {
       type: String,
       default: '',
     },
-    singleInputClass: {
+    separateWrapperClass: {
       type: String,
       default: '',
     },
-    wrapperInputClass: {
+    groupInputClass: {
+      type: String,
+      default: '',
+    },
+    groupWrapperClass: {
       type: String,
       default: '',
     },
     gap: {
       type: String,
-      default: '20',
+      default: '10',
     },
     isDisabled: {
       type: Boolean,
       default: false,
     },
     hasError: {
+      type: Boolean,
+      default: false,
+    },
+    errorClass: {
+      type: String,
+      default: '',
+    },
+    rtl: {
       type: Boolean,
       default: false,
     },
@@ -74,65 +88,40 @@ export default {
     };
   },
   computed: {
-    modeClass() {
-      if (this.mode === 'group') {
-        return 'group-classes';
-      }
-      return 'separated-classes';
+    wrapperStyle() {
+      const dir = this.rtl ? 'rtl' : 'ltr';
+      const styles = {
+        direction: dir,
+        gap: `${this.gap}px`,
+        'border-radius': `${this.radius}px`,
+      };
+      return styles;
     },
-    inputsWrapperStyle() {
-      if (this.mode === 'separated') {
-        const styles = {
-          gap: `${this.gap}px`,
-        };
-        return styles;
-      }
-      if (this.mode === 'group') {
-        const styles = {
-          'border-radius': `${this.radius}px`,
-        };
-        return styles;
-      }
-      return '';
-    },
-    singleInputStyle() {
-      if (this.mode === 'separated') {
-        const styles = {
-          'border-radius': `${this.radius}px`,
-        };
-        return styles;
-      }
-      // if (this.mode === 'group') {
-      //   const styles = {
-      //     'background-color': this.bgColor,
-      //     border: 'none',
-      //     height: `${this.height}px`,
-      //   };
-      //   return styles;
-      // }
-      return '';
-    },
-    cssVars() {
+    inputStyle() {
       return {
         '--border-radius': `${this.radius}px`,
       };
     },
-    singleInputHandler() {
-      if (this.mode === 'separated') {
-        return this.singleInputClass ? this.singleInputClass : 'defualt-single-Input-separated';
-      } if (this.mode === 'group') {
-        return this.singleInputClass ? this.singleInputClass : 'defualt-single-Input-group';
+    inputClassHandler() {
+      if (this.mode === 'separate') {
+        return this.separateInputClass ? this.separateInputClass : 'defualt-input-separate';
+      }
+      if (this.mode === 'group') {
+        return this.groupInputClass ? this.groupInputClass : 'defualt-input-group';
       }
       return '';
     },
-    wrapperInputHandler() {
-      // if (this.mode === 'separated') {
-      //   return this.singleInputClass ? this.singleInputClass : 'defualt-single-Input-separated';
-      // }
+    wrapperClassHandler() {
+      if (this.mode === 'separate') {
+        return this.separateWrapperClass ? this.separateWrapperClass : 'defualt-wrapper-separate';
+      }
       if (this.mode === 'group') {
-        return this.wrapperInputClass ? this.wrapperInputClass : 'defualt-wrapper-Input';
+        return this.groupWrapperClass ? this.groupWrapperClass : 'defualt-wrapper-group';
       }
       return '';
+    },
+    errorClassHandler() {
+      return this.errorClass ? this.errorClass : 'default-error-class';
     },
   },
   methods: {
@@ -168,68 +157,54 @@ export default {
 </script>
 
 <style lang="css" scoped>
-
-div.otp-wrapper{
+div.vue-otp-input {
   width: max-content;
 }
-div.group-classes {
-  direction: ltr;
-  margin: 0 auto;
-  width: max-content;
-  border-width: 1px;
-  border-style: solid;
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 0.15s;
-  transition-duration: 0.3s;
-}
-input.otp-input {
+div.vue-otp-input > div.otp-wrapper {
+  direction: var(--direction);
   text-align: center;
-  font-weight: 600;
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 0.15s;
-  transition-duration: 0.3s;
-  direction: ltr;
-}
-input.otp-input:disabled {
-  background-color: #ececec !important;
-}
-
-div.separated-classes {
-  direction: ltr;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-div.separated-classes .otp-input {
-  border-width: 1px;
-  border-style: solid;
+
+div.vue-otp-input > div.otp-wrapper > input.otp-input {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 0.3s;
+  border-radius: var(--border-radius);
 }
-.single-digit-round-group-mode:first-child {
-  border-top-left-radius: var(--border-radius);
-  border-bottom-left-radius: var(--border-radius);
+div.vue-otp-input > div.otp-wrapper > input.otp-input:disabled {
+  background-color: #ececec !important;
 }
-.single-digit-round-group-mode:last-child {
-  border-top-right-radius: var(--border-radius);
-  border-bottom-right-radius: var(--border-radius);
+/* SINGLE INPUT IN SEPARATE MODE */
+div.vue-otp-input > div.otp-wrapper > input.defualt-input-separate {
+  text-align: center;
+  font-weight: 600;
+  background-color: transparent;
+  border: solid 2px #ececec;
+  width: 48px;
+  height: 48px;
 }
-input.defualt-single-Input-separated{
-background-color: transparent;
-border-color: #ECECEC;
-width: 48px;
-height: 48px;
+/* INPUTS WRAPPER IN SEPARATE MODE */
+div.vue-otp-input > div.defualt-wrapper-separate {
+  background: transparent;
 }
-input.defualt-single-Input-group{
-background-color: transparent;
-width: 48px;
-height: 48px;
-border: none;
+/* INPUTS WRAPPER IN GROUP MODE */
+div.vue-otp-input > div.defualt-wrapper-group {
+  border: solid 2px #ececec;
 }
-input.defualt-wrapper-Input{
-border-color: red;
-width: 48px;
-height: 48px;
-border: none;
+
+/* SINGLE INPUT IN GROUP MODE */
+div.vue-otp-input > div.otp-wrapper > input.defualt-input-group {
+  background-color: transparent;
+  border: none;
+  width: 48px;
+  height: 48px;
+  text-align: center;
+}
+div.vue-otp-input > span.default-error-class {
+  color: #eb1d36;
+  font-weight: bold;
 }
 </style>

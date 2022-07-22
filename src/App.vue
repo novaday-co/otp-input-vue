@@ -10,7 +10,11 @@
 
       <div style="margin-top: 2rem">
         <p>separated with Class</p>
-        <otp-input style="margin-top: 1rem" singleInputClass="singleInputClass" />
+        <otp-input
+          style="margin-top: 1rem"
+          separateWrapperClass="separateWrapperClass"
+          separateInputClass="separateInputClass"
+        />
       </div>
 
       <div style="margin-top: 2rem">
@@ -20,12 +24,17 @@
 
       <div style="margin-top: 2rem">
         <p>group with Class</p>
-        <otp-input style="margin-top: 1rem" mode="group" wrapperInputClass="wrapperInputClass" />
+        <otp-input
+          style="margin-top: 1rem"
+          mode="group"
+          groupWrapperClass="groupWrapperClass"
+          groupInputClass="groupInputClass"
+        />
       </div>
 
       <div style="margin-top: 2rem">
-        <p>Error</p>
-        <otp-input style="margin-top: 1rem" errorClass="errorClass" hasError>
+        <p>If input has Error</p>
+        <otp-input style="margin-top: 1rem" hasError rtl>
           <template #errorMessage> There is an error </template>
         </otp-input>
       </div>
@@ -44,20 +53,35 @@ export default {
 };
 </script>
 <style lang="css" scoped>
-.otp-wrapper >>> .errorClass {
+/* .vue-otp-input >>> .errorClass {
   color: #eb1d36;
   font-weight: bold;
-}
-.otp-wrapper >>> .singleInputClass {
+} */
+.vue-otp-input >>> .separateInputClass {
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
   background-color: aquamarine;
   color: blue;
-  border-color: red;
+  border: solid 2px red;
   width: 48px;
   height: 48px;
 }
-.otp-wrapper >>> .wrapperInputClass {
+.vue-otp-input >>> .separateWrapperClass {
+  border: solid 3px green;
+}
+.vue-otp-input >>> .groupWrapperClass {
+  border: solid 3px green;
   background-color: aquamarine;
-  color: green;
-  border: dotted 5px purple;
+}
+.vue-otp-input >>> .groupInputClass {
+  background-color:#fff;
+  border: solid 2px red;
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+  color: blue;
+  width: 48px;
+  height: 48px;
 }
 </style>
