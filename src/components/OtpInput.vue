@@ -7,20 +7,18 @@
         :key="id + index"
         v-model="inputValue[index]"
         class="otp-input"
-        :class="inputClassHandler"
+        :class="[inputClassHandler, activeInput === index ? activeInputClassHandler : '']"
         autocomplete="off"
         :placeholder="placeholder"
         :disabled="isDisabled"
-        @focus="onFocus"
+        @focus="onFocus(index)"
         @blur="focusOff"
         @input="onInput(index, $event)"
         @keydown="backspace(index, $event)"
         :style="inputStyle"
       />
     </div>
-    <span v-if="hasError" :class="errorClassHandler"
-      ><slot name="errorMessage"></slot
-    ></span>
+    <span v-if="hasError" :class="errorClassHandler"><slot name="errorMessage"></slot></span>
   </div>
 </template>
 
@@ -68,6 +66,10 @@ export default {
       type: String,
       default: '',
     },
+    activeInputClass: {
+      type: String,
+      default: '',
+    },
     gap: {
       type: String,
       default: '10',
@@ -93,6 +95,7 @@ export default {
     return {
       inputValue: [],
       isInputFocused: false,
+      activeInput: -1,
     };
   },
   computed: {
@@ -119,6 +122,9 @@ export default {
       }
       return '';
     },
+    activeInputClassHandler() {
+      return this.activeInputClass ? this.activeInputClass : 'defualt-active-input';
+    },
     wrapperClassHandler() {
       if (this.mode === 'separate') {
         return this.separateWrapperClass ? this.separateWrapperClass : 'defualt-wrapper-separate';
@@ -139,7 +145,9 @@ export default {
       }
     },
     onInput(index) {
-      const [first, ...rest] = this.type === 'number' ? this.inputValue[index].replace(/[^0-9]/g, '') : this.inputValue[index];
+      const [first, ...rest] = this.type === 'number'
+        ? this.inputValue[index].replace(/[^0-9]/g, '')
+        : this.inputValue[index];
       this.inputValue[index] = first === null || first === undefined ? '' : first;
       // this.inputValue[index] = first ?? ''; // the `??` '' is for the backspace usecase
       const lastInputBox = index === this.$refs.digitInput.length - 1;
@@ -154,10 +162,11 @@ export default {
       this.isInputFocused = code.length !== this.digits;
       this.$emit('code', code);
     },
-    onFocus() {
-      this.isInputFocused = true;
+    onFocus(index) {
+      this.activeInput = index;
     },
     focusOff() {
+      this.activeInput = -1;
       this.isInputFocused = false;
     },
   },
@@ -211,8 +220,16 @@ div.vue-otp-input > div.otp-wrapper > input.defualt-input-group {
   height: 48px;
   text-align: center;
 }
+div.vue-otp-input > div.otp-wrapper > input.defualt-active-input {
+  border: solid 2px #5800ff;
+  transform: scale(1.15);
+  font-size: 1rem;
+}
 div.vue-otp-input > span.default-error-class {
   color: #eb1d36;
   font-weight: bold;
+}
+input:focus {
+  outline: none;
 }
 </style>

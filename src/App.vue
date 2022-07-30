@@ -54,7 +54,7 @@ export default {
 </script>
 <style lang="css" scoped>
 .vue-otp-input >>> .errorClass {
-  color: yellow;
+  color: pink;
   font-weight: bold;
 }
 .vue-otp-input >>> .separateInputClass {
