@@ -9,7 +9,7 @@
         class="otp-input"
         :class="inputClassHandler"
         autocomplete="off"
-        placeholder="-"
+        :placeholder="placeholder"
         :disabled="isDisabled"
         @focus="onFocus"
         @blur="focusOff"
@@ -39,6 +39,14 @@ export default {
     mode: {
       type: String,
       default: 'separate',
+    },
+    type: {
+      type: String,
+      default: 'number',
+    },
+    placeholder: {
+      type: String,
+      default: '-',
     },
     radius: {
       type: String,
@@ -131,7 +139,7 @@ export default {
       }
     },
     onInput(index) {
-      const [first, ...rest] = this.inputValue[index].replace(/[^0-9]/g, '');
+      const [first, ...rest] = this.type === 'number' ? this.inputValue[index].replace(/[^0-9]/g, '') : this.inputValue[index];
       this.inputValue[index] = first === null || first === undefined ? '' : first;
       // this.inputValue[index] = first ?? ''; // the `??` '' is for the backspace usecase
       const lastInputBox = index === this.$refs.digitInput.length - 1;

@@ -5,7 +5,7 @@
     >
       <div>
         <p>separated with no Class</p>
-        <otp-input />
+        <otp-input type="text" placeholder='_'/>
       </div>
 
       <div style="margin-top: 2rem">
@@ -34,7 +34,7 @@
 
       <div style="margin-top: 2rem">
         <p>If input has Error</p>
-        <otp-input style="margin-top: 1rem" hasError rtl>
+        <otp-input style="margin-top: 1rem" hasError rtl errorClass="errorClass">
           <template #errorMessage> There is an error </template>
         </otp-input>
       </div>
@@ -53,10 +53,10 @@ export default {
 };
 </script>
 <style lang="css" scoped>
-/* .vue-otp-input >>> .errorClass {
-  color: #eb1d36;
+.vue-otp-input >>> .errorClass {
+  color: yellow;
   font-weight: bold;
-} */
+}
 .vue-otp-input >>> .separateInputClass {
   text-align: center;
   font-weight: bold;
