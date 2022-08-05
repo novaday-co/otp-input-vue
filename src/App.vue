@@ -5,7 +5,15 @@
     >
       <div>
         <p>separated with no Class</p>
-        <otp-input type="text" placeholder='_'/>
+        <otp-input
+          type="text"
+          placeholder="_"
+          autoFocus
+          @on-complete="onCompleteHandler"
+          @on-changed="onChangedHandler"
+          @on-paste="onPasteHandler"
+        />
+        <!-- @value="getInputValue" -->
       </div>
 
       <div style="margin-top: 2rem">
@@ -50,6 +58,20 @@ export default {
   components: {
     OtpInput,
   },
+  methods: {
+    // getInputValue(val) {
+    //   console.log(val);
+    // },
+    onCompleteHandler(e) {
+      console.log('completed', e);
+    },
+    onChangedHandler(e) {
+      console.log('changed', e);
+    },
+    onPasteHandler(e) {
+      console.log('pasted', e);
+    },
+  },
 };
 </script>
 <style lang="css" scoped>
@@ -75,7 +97,7 @@ export default {
   background-color: aquamarine;
 }
 .vue-otp-input >>> .groupInputClass {
-  background-color:#fff;
+  background-color: #fff;
   border: solid 2px red;
   text-align: center;
   font-weight: bold;

@@ -1,6 +1,11 @@
 <template>
   <div class="vue-otp-input">
-    <div class="otp-wrapper" :class="wrapperClassHandler" :style="wrapperStyle" :id="id">
+    <div
+      class="otp-wrapper"
+      :class="isInputFocused ? activeWrapperClassHandler : wrapperClassHandler"
+      :style="wrapperStyle"
+      :id="id"
+    >
       <input
         v-for="(digitInput, index) in digits"
         ref="digitInput"
@@ -12,8 +17,10 @@
         :placeholder="placeholder"
         :disabled="isDisabled"
         @focus="onFocus(index)"
-        @blur="focusOff"
+        @blur="onBlur"
+        @paste="OnPaste"
         @input="onInput(index, $event)"
+        @change="onChanged(index)"
         @keydown="backspace(index, $event)"
         :style="inputStyle"
       />
@@ -70,6 +77,10 @@ export default {
       type: String,
       default: '',
     },
+    activeWrapperClass: {
+      type: String,
+      default: '',
+    },
     gap: {
       type: String,
       default: '10',
@@ -90,13 +101,24 @@ export default {
       type: Boolean,
       default: false,
     },
+    autoFocus: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
       inputValue: [],
+      joinedValue: '',
       isInputFocused: false,
       activeInput: -1,
     };
+  },
+  mounted() {
+    if (this.autoFocus) {
+      this.onFocus(0);
+      this.$refs.digitInput[0].focus();
+    }
   },
   computed: {
     wrapperStyle() {
@@ -123,7 +145,16 @@ export default {
       return '';
     },
     activeInputClassHandler() {
-      return this.activeInputClass ? this.activeInputClass : 'defualt-active-input';
+      if (this.mode === 'separate') {
+        return this.activeInputClass ? this.activeInputClass : 'defualt-active-input';
+      }
+      return '';
+    },
+    activeWrapperClassHandler() {
+      if (this.mode === 'group') {
+        return this.activeWrapperClass ? this.activeWrapperClass : 'defualt-active-wrapper';
+      }
+      return '';
     },
     wrapperClassHandler() {
       if (this.mode === 'separate') {
@@ -145,6 +176,7 @@ export default {
       }
     },
     onInput(index) {
+      // console.log(index);
       const [first, ...rest] = this.type === 'number'
         ? this.inputValue[index].replace(/[^0-9]/g, '')
         : this.inputValue[index];
@@ -158,16 +190,29 @@ export default {
         this.$refs.digitInput[index + 1].value = rest.join('');
         this.$refs.digitInput[index + 1].dispatchEvent(new Event('input'));
       }
-      const code = this.inputValue.map((value) => value).join('');
-      this.isInputFocused = code.length !== this.digits;
-      this.$emit('code', code);
+      this.joinedValue = this.inputValue.map((value) => value).join('');
+      this.$emit('value', this.joinedValue);
+      if (this.joinedValue.length === this.digits) {
+        this.onComplete(this.joinedValue);
+      }
     },
     onFocus(index) {
       this.activeInput = index;
+      this.isInputFocused = true;
     },
-    focusOff() {
+    onBlur() {
       this.activeInput = -1;
       this.isInputFocused = false;
+    },
+    onComplete(joinedValue) {
+      this.onBlur();
+      this.$emit('on-complete', joinedValue);
+    },
+    onChanged(index) {
+      this.$emit('on-changed', this.inputValue[index]);
+    },
+    OnPaste(event) {
+      this.$emit('on-paste', event);
     },
   },
 };
@@ -183,6 +228,9 @@ div.vue-otp-input > div.otp-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 0.3s;
 }
 
 div.vue-otp-input > div.otp-wrapper > input.otp-input {
@@ -222,8 +270,9 @@ div.vue-otp-input > div.otp-wrapper > input.defualt-input-group {
 }
 div.vue-otp-input > div.otp-wrapper > input.defualt-active-input {
   border: solid 2px #5800ff;
-  transform: scale(1.15);
-  font-size: 1rem;
+}
+div.vue-otp-input > div.defualt-active-wrapper {
+  border: solid 2px #5800ff;
 }
 div.vue-otp-input > span.default-error-class {
   color: #eb1d36;
