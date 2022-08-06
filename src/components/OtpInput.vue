@@ -184,7 +184,6 @@ export default {
       const lastInputBox = index === this.$refs.digitInput.length - 1;
       const insertedContent = first !== undefined;
       if (insertedContent && !lastInputBox) {
-        // continue to input the rest of the string
         this.$refs.digitInput[index + 1].focus();
         this.$refs.digitInput[index + 1].value = rest.join('');
         this.$refs.digitInput[index + 1].dispatchEvent(new Event('input'));
