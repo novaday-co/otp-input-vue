@@ -8,29 +8,27 @@
         <otp-input
           type="text"
           placeholder="_"
-          autoFocus
           @on-complete="onCompleteHandler"
           @on-changed="onChangedHandler"
           @on-paste="onPasteHandler"
         />
-        <!-- @value="getInputValue" -->
       </div>
 
-      <div style="margin-top: 2rem">
+      <!-- <div style="margin-top: 2rem">
         <p>separated with Class</p>
         <otp-input
           style="margin-top: 1rem"
           separateWrapperClass="separateWrapperClass"
           separateInputClass="separateInputClass"
         />
-      </div>
+      </div> -->
 
-      <div style="margin-top: 2rem">
+      <!-- <div style="margin-top: 2rem">
         <p>group with no Class</p>
-        <otp-input style="margin-top: 1rem" mode="group" />
-      </div>
+        <otp-input style="margin-top: 1rem" mode="group" autoFocus />
+      </div> -->
 
-      <div style="margin-top: 2rem">
+      <!-- <div style="margin-top: 2rem">
         <p>group with Class</p>
         <otp-input
           style="margin-top: 1rem"
@@ -38,14 +36,14 @@
           groupWrapperClass="groupWrapperClass"
           groupInputClass="groupInputClass"
         />
-      </div>
+      </div> -->
 
-      <div style="margin-top: 2rem">
+      <!-- <div style="margin-top: 2rem">
         <p>If input has Error</p>
         <otp-input style="margin-top: 1rem" hasError rtl errorClass="errorClass">
           <template #errorMessage> There is an error </template>
         </otp-input>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -59,9 +57,6 @@ export default {
     OtpInput,
   },
   methods: {
-    // getInputValue(val) {
-    //   console.log(val);
-    // },
     onCompleteHandler(e) {
       console.log('completed', e);
     },

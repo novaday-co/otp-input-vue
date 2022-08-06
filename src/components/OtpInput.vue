@@ -13,7 +13,6 @@
         v-model="inputValue[index]"
         class="otp-input"
         :class="[inputClassHandler, activeInput === index ? activeInputClassHandler : '']"
-        autocomplete="off"
         :placeholder="placeholder"
         :disabled="isDisabled"
         @focus="onFocus(index)"
@@ -21,11 +20,13 @@
         @paste="OnPaste"
         @input="onInput(index, $event)"
         @change="onChanged(index)"
-        @keydown="backspace(index, $event)"
+        @keydown="keydownHandler(index, $event)"
         :style="inputStyle"
       />
     </div>
-    <span v-if="hasError" :class="errorClassHandler"><slot name="errorMessage"></slot></span>
+    <span v-if="hasError" :class="errorClassHandler">
+      <slot name="errorMessage"></slot>
+    </span>
   </div>
 </template>
 
@@ -35,7 +36,7 @@ export default {
   props: {
     id: {
       type: String,
-      default: 'vi',
+      default: 'otp',
     },
     digits: {
       type: Number,
@@ -115,7 +116,7 @@ export default {
     };
   },
   mounted() {
-    if (this.autoFocus) {
+    if (this.autoFocus && !this.isDisabled) {
       this.onFocus(0);
       this.$refs.digitInput[0].focus();
     }
@@ -170,18 +171,16 @@ export default {
     },
   },
   methods: {
-    backspace(index, e) {
+    keydownHandler(index, e) {
       if (e.keyCode === 8 && e.target.value === '') {
         this.$refs.digitInput[Math.max(0, index - 1)].focus();
       }
     },
     onInput(index) {
-      // console.log(index);
       const [first, ...rest] = this.type === 'number'
         ? this.inputValue[index].replace(/[^0-9]/g, '')
         : this.inputValue[index];
       this.inputValue[index] = first === null || first === undefined ? '' : first;
-      // this.inputValue[index] = first ?? ''; // the `??` '' is for the backspace usecase
       const lastInputBox = index === this.$refs.digitInput.length - 1;
       const insertedContent = first !== undefined;
       if (insertedContent && !lastInputBox) {
@@ -248,8 +247,14 @@ div.vue-otp-input > div.otp-wrapper > input.defualt-input-separate {
   font-weight: 600;
   background-color: transparent;
   border: solid 2px #ececec;
-  width: 48px;
+  width: 3rem;
   height: 48px;
+}
+@media only screen and (max-width: 600px) {
+  div.vue-otp-input > div.otp-wrapper > input.defualt-input-separate {
+    width: 2.5rem;
+    height: 40px;
+  }
 }
 /* INPUTS WRAPPER IN SEPARATE MODE */
 div.vue-otp-input > div.defualt-wrapper-separate {
@@ -264,15 +269,21 @@ div.vue-otp-input > div.defualt-wrapper-group {
 div.vue-otp-input > div.otp-wrapper > input.defualt-input-group {
   background-color: transparent;
   border: none;
-  width: 48px;
+  width: 3rem;
   height: 48px;
   text-align: center;
 }
+@media only screen and (max-width: 600px) {
+  div.vue-otp-input > div.otp-wrapper > input.defualt-input-group {
+    width: 2.5rem;
+    height: 40px;
+  }
+}
 div.vue-otp-input > div.otp-wrapper > input.defualt-active-input {
-  border: solid 2px #5800ff;
+  border: solid 2px #525252;
 }
 div.vue-otp-input > div.defualt-active-wrapper {
-  border: solid 2px #5800ff;
+  border: solid 2px #525252;
 }
 div.vue-otp-input > span.default-error-class {
   color: #eb1d36;
