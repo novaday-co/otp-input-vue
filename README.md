@@ -31,8 +31,6 @@ Fully customizable OTP input for web apps, compatible with Vue 2.x
 </a>
 </p>
 
-  
-
 <p  align="center">
 <a  href="#key-features">Key Features</a> •
 <a  href="#how-to-use">How To Use</a> •
@@ -40,56 +38,42 @@ Fully customizable OTP input for web apps, compatible with Vue 2.x
 <a  href="#license">License</a>
 </p>
 
-  
-
 <p  align="center">
 <img  src="https://i.ibb.co/rmQmDcw/otp-input.gif"
 alt="otp-input.gif">
 </p>
 
-  
-  
-
 ## Key Features ✨
 
+- [x] Dynamic display modes - **Group** and **Separate**
+
+- [x] Fully customizable style - **Input** , **wrapper** , **Active Input**, **Errors**
+
+- [x] Direction of inputs - **RTL** / **LTR**
+
+- [x] Dynamic Type - **Number** and **Text**
+
+- [x] Dynamic **Number of inputs**
+
+- [x] Your desired character as input **placeholder**
+
+- [x] Controllable **gap** between inputs
+
+- [x] **Disabled** inputs
+
+- [x] **Error handling** - with customizable text
+
+- [x] **Auto Focus** on inputs
+
+- [ ] **Password** input type  *(Coming soon ... )*
+
+- [ ]  **web-otp** - auto fill input from sms  *(Coming soon ... )*
+
+- [ ]  **Vue 3.x** - compatible with vue 3.x *(Coming soon ... )*
   
-
-- [x] Dynamic display modes - **Group** and **Separate** 
-
- - [x] Fully customizable style - **Input** , **wrapper** , **Active Input**, **Errors**
-
- - [x] Direction of inputs - **RTL** / **LTR** 
-
- - [x] Dynamic Type - **Number** and **Text**
- 
- - [x] Dynamic **Number of inputs**
-
- - [x] Your desired character as input **placeholder**
-
- - [x] Controllable **gap** between inputs
-
- - [x] **Disabled** inputs
-
- - [x] **Error handling** - with customizable text
-
- - [x] **Auto Focus** on inputs
- 
- - [ ] **Password** input type  *(Coming soon ... )*
- 
- - [ ]  **web-otp** - auto fill input from sms  *(Coming soon ... )*
- 
- - [ ]  **Vue 3.x** - compatible with vue 3.x *(Coming soon ... )*
-  
-
-
-
-  
-
-## How to install :
+## How to install
 
 To install the latest stable version:
-
-  
 
 ```bash
 npm install --save @novaday-co/vue-otp-input
