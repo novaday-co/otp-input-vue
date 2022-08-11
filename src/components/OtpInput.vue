@@ -141,7 +141,7 @@ export default {
         if (this.hasError) {
           return this.separateInputClass ? this.separateInputClass : "defualt-error-input-separate";
         } else {
-          return this.separateInputClass ? this.separateInputClass : "defualt-wrapper-separate";
+          return this.separateInputClass ? this.separateInputClass : "defualt-input-separate";
         }
       }
       if (this.mode === "group") {
