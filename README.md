@@ -1,3 +1,4 @@
+
 <h1  align="center">
 <br>
 <img src="https://i.ibb.co/qDR8VZv/vue-logo.png" alt="vue-logo">
@@ -27,12 +28,14 @@ Fully customizable OTP input for web apps, compatible with Vue 2.x
 
 <p  align="center">
 <a  href="#key-features">Key Features</a> •
-<a  href="#how-to-use">How To Use</a> •
-<a  href="#contribute">Contribute</a> •
-<a  href="#license">License</a>
+<a  href="#installation">Installation</a> •
+<a  href="#props">Props</a> •
+<a  href="#events">Events</a> •
+<a  href="#styling">Styling</a> •
+<a  href="#contribute ">Contribute </a> •
+<a  href="#license">License
+</a> 
 </p>
-
-  
 
 <p  align="center">
 <img  src="https://i.ibb.co/rmQmDcw/otp-input.gif"
@@ -42,7 +45,7 @@ alt="otp-input.gif">
   
   
 
-## Key Features ✨
+##  Key Features
 
   
 
@@ -72,12 +75,7 @@ alt="otp-input.gif">
  
  - [ ]  **Vue 3.x** - compatible with vue 3.x *(Coming soon ... )*
   
-
-
-
-  
-
-## Installation  🔌
+## Installation
 
 To install the latest stable version:
   
@@ -85,55 +83,63 @@ To install the latest stable version:
 npm i otp-input-vue2
 ```
 
-<h4> Basic usage :</h4>
-import to your component : 
+<h4> Basic Example :</h4>
+just import to your component : 
 
 ``` html
-<template>
-	<div>
-		<otp-input
-		:isValid="isCodeValid"
-		@on-complete="onCompleteHandler"
-		@on-changed="onChangedHandler"
-		@on-paste="onPasteHandler">
-			<template #errorMessage> There is an error </template>
-		</otp-input>
-	</div>
-</template>
+	<template>
+		<div>
+			<otp-input
+			:isValid="isCodeValid"
+			@on-complete="onCompleteHandler"
+			@on-changed="onChangedHandler"
+			@on-paste="onPasteHandler">
+				<template #errorMessage> There is an error </template>
+			</otp-input>
+		</div>
+	</template>
 
-<script>
-import  OtpInput  from  "./components/OtpInput.vue";
+	<script>
+	import  OtpInput  from  "./components/OtpInput.vue";
 
-export default {
+	export default {
+	name:"yourComponent",
+	components:{
+		OtpInput,
+	},
+	data(){
+		return {
+			isCodeValid: true,
+		};
+	},
+	methods: {
+		onCompleteHandler(code){
+		console.log("code completed",  code);
+		this.isCodeValid = false;
+		},
 
-components: {
-	OtpInput,
-},
-data()  {
-	return  {
-		isCodeValid: true,
+		onChangedHandler(lastEnteredCode){
+		console.log("code changed",  lastEnteredCode);
+		this.isCodeValid = true;
+		},
+
+		onPasteHandler(code){
+		console.log("code pasted",  code);
+		},
+	},
+
 	};
-},
-methods: {
-	onCompleteHandler(code)  {
-	console.log("code completed",  code);
-	},
 
-	onChangedHandler(lastEnteredCode)  {
-	console.log("code changed",  lastEnteredCode);
-	},
-
-	onPasteHandler(code)  {
-	console.log("code pasted",  code);
-	},
-},
-
-};
-
-</script>
+	</script>
 ```
+Expected output : 
+<p align="center">
+<img src="https://i.ibb.co/BgR6Yvn/otp-input-error.gif" alt="otp-input-error" border="0">
+</p>
 
-## Props :
+
+
+## Props
 
 <table>
 <tbody>
@@ -247,8 +253,10 @@ methods: {
 </tbody>
 </table>
 
+>  **Note**
+> Don't Panic! 😁 There is a guide to how use class props and style inputs as you wish, [see this guide](#styling).
 
-## Events:
+## Events
 
 <table>
 <tbody>
@@ -270,9 +278,157 @@ methods: {
   </tr>
 </tbody>
 </table>
-
->  **Note**
-
   
+  
+## Styling
+To customize the appearance of the inputs, we can pass our classes to the component as props:
 
-> If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
+First we should know how to pass class to otp component and use it . there is several approach, we focus on **scoped CSS** with *deep selector* (you can do yours😉) :
+
+<h4>Separte Mode :</h4>
+
+template :
+``` html
+<template>
+ <otp-input
+	separateWrapperClass="separate-wrapper-class"
+	separateInputClass="separate-input-class"
+ />
+</template>
+```
+css :
+``` CSS
+<style scoped>
+ .vue-otp-input  >>>  .separate-input-class {
+	text-align: center;
+	font-weight: bold;
+	font-size: 20px;
+	background-color: aquamarine;
+	color: blue;
+	border: solid  2px  red;
+	width: 48px;
+	height: 48px;
+ }
+
+.vue-otp-input  >>>  .separate-wrapper-class {
+	border: solid  3px  green;
+}
+</style>
+```
+output:
+<img src="https://i.ibb.co/wYpSff2/Screenshot-2022-08-12-181410.jpg" alt="Screenshot-2022-08-12-181410" border="0">
+
+---
+
+<h4>Group Mode :</h4>
+
+template :
+``` html
+<template>
+ <otp-input
+	mode="group"
+	groupWrapperClass="group-wrapper-class"
+	groupInputClass="group-input-class"
+/>
+</template>
+```
+css :
+``` CSS
+<style scoped>
+.vue-otp-input  >>>  .group-wrapper-class {
+	border: solid  3px  green;
+	background-color: blue;
+}
+
+.vue-otp-input  >>>  .group-input-class {
+	background-color: blue;
+	border: none;
+	text-align: center;
+	font-weight: bold;
+	font-size: 20px;
+	color: #fff;
+	width: 48px;
+	height: 48px;
+}
+</style>
+```
+
+output :
+
+<img src="https://i.ibb.co/vqpdcrR/Screenshot-2022-08-12-182437.jpg" alt="Screenshot-2022-08-12-182437" border="0">
+
+---
+<h4>Error Message  :</h4>
+
+template :
+``` html
+<template>
+	 <otp-input  
+	 :isValid="false"  errorClass="error-class">
+	 <template #errorMessage> There is an error </template>
+	</otp-input>
+</template>
+
+```
+
+css :
+``` CSS
+<style scoped>
+
+.vue-otp-input  >>>  .error-class {
+	color: #66ff00;
+	line-height: 1.5em;
+	font-weight: bold;
+}
+</style>
+```
+output :
+
+<img src="https://i.ibb.co/DG94KdD/Screenshot-2022-08-12-205308.jpg" alt="Screenshot-2022-08-12-205308" border="0">
+
+---
+<h4>Active input  (focus)   :</h4>
+
+template :
+
+``` html
+<template>
+	 <otp-input  
+		 activeInputClass="active-input-class">
+	</otp-input>
+</template>
+```
+css :
+``` CSS
+<style scoped>
+
+.vue-otp-input  >>>  .active-input-class {
+	text-align: center;
+	border-color: red  !important;
+	transform: scale(1.2);
+}
+</style>
+```
+
+output :
+
+<img src="https://i.ibb.co/d0pYb2m/Screenshot-2022-08-12-215955.jpg" alt="Screenshot-2022-08-12-215955" border="0">
+
+or in group mode with `activeWrapperClass` prop :
+
+
+<img src="https://i.ibb.co/7VhVkzR/Screenshot-2022-08-12-220828.jpg" alt="Screenshot-2022-08-12-220828" border="0">
+
+
+##  Contribute :
+
+You can help me and contribute for :
+
+- New options
+
+- Bug Fix
+
+- Better exceptions
+
+## License
+MIT
