@@ -24,7 +24,7 @@
         :style="inputStyle"
       />
     </div>
-    <span v-if="hasError" :class="errorClassHandler">
+    <span v-if="!isValid" :class="errorClassHandler">
       <slot name="errorMessage"></slot>
     </span>
   </div>
@@ -66,9 +66,9 @@ export default {
       type: Boolean,
       default: false,
     },
-    hasError: {
+    isValid: {
       type: Boolean,
-      default: false,
+      default: true,
     },
     rtl: {
       type: Boolean,
@@ -138,10 +138,10 @@ export default {
     },
     inputClassHandler() {
       if (this.mode === "separate") {
-        if (this.hasError) {
-          return this.separateInputClass ? this.separateInputClass : "defualt-error-input-separate";
-        } else {
+        if (this.isValid) {
           return this.separateInputClass ? this.separateInputClass : "defualt-input-separate";
+        } else {
+          return this.separateInputClass ? this.separateInputClass : "defualt-error-input-separate";
         }
       }
       if (this.mode === "group") {
@@ -157,10 +157,10 @@ export default {
     },
     activeWrapperClassHandler() {
       if (this.mode === "group") {
-        if (this.hasError) {
-          return this.activeWrapperClass ? this.activeWrapperClass : "defualt-error-wrapper-group";
-        } else {
+        if (this.isValid) {
           return this.activeWrapperClass ? this.activeWrapperClass : "defualt-active-wrapper";
+          } else {
+          return this.activeWrapperClass ? this.activeWrapperClass : "defualt-error-wrapper-group";
         }
       }
       return "";
@@ -170,10 +170,10 @@ export default {
         return this.separateWrapperClass ? this.separateWrapperClass : "defualt-wrapper-separate";
       }
       if (this.mode === "group") {
-        if (this.hasError) {
-          return this.groupWrapperClass ? this.groupWrapperClass : "defualt-error-wrapper-group";
-        } else {
+        if (this.isValid) {
           return this.groupWrapperClass ? this.groupWrapperClass : "defualt-wrapper-group";
+          } else {
+          return this.groupWrapperClass ? this.groupWrapperClass : "defualt-error-wrapper-group";
         }
       }
       return "";

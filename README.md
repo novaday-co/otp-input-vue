@@ -8,14 +8,6 @@ OTP-INPUT
 <h4  align="center">
 Fully customizable OTP input for web apps, compatible with Vue 2.x
 </h4>
-
-<p  align="center">
-<img  src="https://img.shields.io/badge/eslint-3A33D1?style=for-the-badge&logo=eslint&logoColor=white" alt="ESlint">
-<img  src="https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D" alt="vuejs">
-<img  src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E" alt="js">
-
-</p>
-
 <p  align="center">
 <a  href="https://github.com/novaday-co/otp-input-vue/stargazers">
 <img  src="https://img.shields.io/github/stars/novaday-co/otp-input-vue" alt="stars">
@@ -85,18 +77,64 @@ alt="otp-input.gif">
 
   
 
-## How to install :
+## Installation  🔌
 
 To install the latest stable version:
-
   
-
 ```bash
-npm install --save @novaday-co/vue-otp-input
+npm i otp-input-vue2
 ```
-## Basic usage :
+
+<h4> Basic usage :</h4>
+import to your component : 
+
+``` html
+<template>
+	<div>
+		<otp-input
+		:isValid="isCodeValid"
+		@on-complete="onCompleteHandler"
+		@on-changed="onChangedHandler"
+		@on-paste="onPasteHandler">
+			<template #errorMessage> There is an error </template>
+		</otp-input>
+	</div>
+</template>
+
+<script>
+import  OtpInput  from  "./components/OtpInput.vue";
+
+export default {
+
+components: {
+	OtpInput,
+},
+data()  {
+	return  {
+		isCodeValid: true,
+	};
+},
+methods: {
+	onCompleteHandler(code)  {
+	console.log("code completed",  code);
+	},
+
+	onChangedHandler(lastEnteredCode)  {
+	console.log("code changed",  lastEnteredCode);
+	},
+
+	onPasteHandler(code)  {
+	console.log("code pasted",  code);
+	},
+},
+
+};
+
+</script>
+```
 
 ## Props :
+
 <table>
 <tbody>
   <tr>
@@ -154,11 +192,10 @@ npm install --save @novaday-co/vue-otp-input
     <td> Whether the input are Disabled or not</td>
   </tr>
   <tr>
-    <td>hasError</td>
+    <td>isValid</td>
     <td>Boolean</td>
-    <td>false</td>
-    <td>Whether the input has error or not</td>
-  </tr>
+    <td>true</td>
+     <td>Whether the entered value is valid or not</td></tr>
   <tr>
     <td>rtl</td>
     <td>Boolean</td>
@@ -233,3 +270,9 @@ npm install --save @novaday-co/vue-otp-input
   </tr>
 </tbody>
 </table>
+
+>  **Note**
+
+  
+
+> If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
