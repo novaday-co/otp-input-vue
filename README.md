@@ -24,6 +24,7 @@ Fully customizable OTP input for web apps, compatible with Vue 2.x
 </a>
 </p>
 
+<br/>
   
 
 <p  align="center">
@@ -32,18 +33,18 @@ Fully customizable OTP input for web apps, compatible with Vue 2.x
 <a  href="#props">Props</a> •
 <a  href="#events">Events</a> •
 <a  href="#styling">Styling</a> •
-<a  href="#contribute ">Contribute </a> •
-<a  href="#license">License
-</a> 
+<a  href="#contribute">Contribute </a> •
+<a  href="#license">License</a> 
 </p>
+
+<br/>
 
 <p  align="center">
 <img  src="https://i.ibb.co/rmQmDcw/otp-input.gif"
 alt="otp-input.gif">
 </p>
 
-  
-  
+<br/>
 
 ##  Key Features
 
@@ -74,8 +75,11 @@ alt="otp-input.gif">
  - [ ]  **web-otp** - auto fill input from sms  *(Coming soon ... )*
  
  - [ ]  **Vue 3.x** - compatible with vue 3.x *(Coming soon ... )*
-  
+  <br/>
+  <br/>
 ## Installation
+
+<br/>
 
 To install the latest stable version:
   
@@ -84,6 +88,7 @@ npm i otp-input-vue2
 ```
 
 <h4> Basic Example :</h4>
+  <br/>
 just import to your component : 
 
 ``` html
@@ -132,7 +137,12 @@ just import to your component :
 
 	</script>
 ```
+<br/>
+
 Expected output : 
+
+<br/>
+
 <p align="center">
 <img src="https://i.ibb.co/BgR6Yvn/otp-input-error.gif" alt="otp-input-error" border="0">
 </p>
@@ -252,10 +262,12 @@ Expected output :
   </tr>
 </tbody>
 </table>
+<br/>
 
 >  **Note**
 > Don't Panic! 😁 There is a guide to how use class props and style inputs as you wish, [see this guide](#styling).
 
+<br/>
 ## Events
 
 <table>
@@ -278,14 +290,15 @@ Expected output :
   </tr>
 </tbody>
 </table>
-  
+
+<br/>
   
 ## Styling
 To customize the appearance of the inputs, we can pass our classes to the component as props:
 
 First we should know how to pass class to otp component and use it . there is several approach, we focus on **scoped CSS** with *deep selector* (you can do yours😉) :
 
-<h4>Separte Mode :</h4>
+<h4>Separate Mode :</h4>
 
 template :
 ``` html
@@ -316,13 +329,14 @@ css :
 </style>
 ```
 output:
+
 <img src="https://i.ibb.co/wYpSff2/Screenshot-2022-08-12-181410.jpg" alt="Screenshot-2022-08-12-181410" border="0">
 
----
-
 <h4>Group Mode :</h4>
+<br/>
 
 template :
+
 ``` html
 <template>
  <otp-input
@@ -332,7 +346,9 @@ template :
 />
 </template>
 ```
+
 css :
+
 ``` CSS
 <style scoped>
 .vue-otp-input  >>>  .group-wrapper-class {
@@ -386,9 +402,10 @@ output :
 
 <img src="https://i.ibb.co/DG94KdD/Screenshot-2022-08-12-205308.jpg" alt="Screenshot-2022-08-12-205308" border="0">
 
----
-<h4>Active input  (focus)   :</h4>
+<br/>
 
+<h4>Active input  (focus)   :</h4>
+<br/>
 template :
 
 ``` html
@@ -419,6 +436,8 @@ or in group mode with `activeWrapperClass` prop :
 
 <img src="https://i.ibb.co/7VhVkzR/Screenshot-2022-08-12-220828.jpg" alt="Screenshot-2022-08-12-220828" border="0">
 
+<br/>
+<br/>
 
 ##  Contribute :
 
