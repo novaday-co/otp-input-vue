@@ -4,9 +4,31 @@
       style="display: flex; flex-direction: column; justify-content: center; align-items: center"
     >
       <div>
-        <p>separated with no Class</p>
+        <p>separated with no Class | text</p>
         <otp-input
           type="text"
+          placeholder="_"
+          activeInputClass="active-input-class"
+          @on-complete="onCompleteHandler"
+          @on-changed="onChangedHandler"
+          @on-paste="onPasteHandler"
+        />
+      </div>
+      <div>
+        <p>separated with no Class | number</p>
+        <otp-input
+          type="number"
+          placeholder="_"
+          activeInputClass="active-input-class"
+          @on-complete="onCompleteHandler"
+          @on-changed="onChangedHandler"
+          @on-paste="onPasteHandler"
+        />
+      </div>
+      <div>
+        <p>separated with no Class | password</p>
+        <otp-input
+          type="password"
           placeholder="_"
           activeInputClass="active-input-class"
           @on-complete="onCompleteHandler"

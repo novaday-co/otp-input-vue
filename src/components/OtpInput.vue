@@ -10,6 +10,7 @@
         v-for="(digitInput, index) in digits"
         ref="digitInput"
         :key="id + index"
+        autocomplete="one-time-code"
         v-model="inputValue[index]"
         class="otp-input"
         :class="[inputClassHandler, activeInput === index ? activeInputClassHandler : '']"
@@ -119,6 +120,13 @@ export default {
     if (this.autoFocus && !this.isDisabled) {
       this.onFocus(0);
       this.$refs.digitInput[0].focus();
+      //setting input type base on the existing types for now
+      const types = ["text", "password", "number"];
+      if (types.indexOf(this.type)!=-1) {
+        for (let box of this.$refs.digitInput) {
+          box.type = this.type;
+        }
+      }
     }
   },
   computed: {
@@ -159,7 +167,7 @@ export default {
       if (this.mode === "group") {
         if (this.isValid) {
           return this.activeWrapperClass ? this.activeWrapperClass : "defualt-active-wrapper";
-          } else {
+        } else {
           return this.activeWrapperClass ? this.activeWrapperClass : "defualt-error-wrapper-group";
         }
       }
@@ -172,7 +180,7 @@ export default {
       if (this.mode === "group") {
         if (this.isValid) {
           return this.groupWrapperClass ? this.groupWrapperClass : "defualt-wrapper-group";
-          } else {
+        } else {
           return this.groupWrapperClass ? this.groupWrapperClass : "defualt-error-wrapper-group";
         }
       }
@@ -316,5 +324,16 @@ div.vue-otp-input > span.default-error-class {
 }
 input:focus {
   outline: none;
+}
+/* removing the arrow keys on side of the input area */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
 </style>
