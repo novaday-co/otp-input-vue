@@ -120,7 +120,7 @@ export default {
     if (this.autoFocus && !this.isDisabled) {
       this.onFocus(0);
       this.$refs.digitInput[0].focus();
-      //setting input type base on the existing types for now
+      //setting input type based on the existing types for now
       const types = ["text", "password", "number"];
       if (types.indexOf(this.type)!=-1) {
         for (let box of this.$refs.digitInput) {
