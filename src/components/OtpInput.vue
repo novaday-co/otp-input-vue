@@ -32,6 +32,8 @@
 </template>
 
 <script>
+import sha256 from 'sha256'
+
 export default {
   name: "OtpInput",
   props: {
@@ -226,6 +228,10 @@ export default {
     onComplete(joinedValue) {
       this.onBlur();
       this.$refs.digitInput[this.digits - 1].blur();
+      if(this.type === "password"){
+        this.$emit("on-complete", sha256(joinedValue));
+      }
+      else
       this.$emit("on-complete", joinedValue);
     },
     onChanged(index) {
