@@ -34,7 +34,7 @@ body:
         - Chrome
         - Firefox
         - Safari
-        - Edge
-	- IE
+        - Edge 
+        - IE
     validations:
       required: true
