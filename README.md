@@ -70,7 +70,7 @@ alt="otp-input.gif">
 
  - [x] **Auto Focus** on inputs
  
- - [ ] **Password** input type  *(Coming soon ... )*
+ - [x] **Password** input type
  
  - [ ]  **web-otp** - auto fill input from sms  *(Coming soon ... )*
  
@@ -181,7 +181,7 @@ Expected output :
     <td>type</td>
     <td>String</td>
     <td>"number"</td>
-    <td>Type of input data , options : number, text</td>
+    <td>Type of input data , options : number, text, password</td>
   </tr>
   <tr>
     <td>placeholder</td>
