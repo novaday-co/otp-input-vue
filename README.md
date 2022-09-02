@@ -77,7 +77,8 @@ alt="otp-input.gif">
  - [ ]  **Vue 3.x** - compatible with vue 3.x *(Coming soon ... )*
   <br/>
   <br/>
-## Installation
+  
+##  Installation
 
 <br/>
 
@@ -268,7 +269,9 @@ Expected output :
 > Don't Panic! 😁 There is a guide to how use class props and style inputs as you wish, [see this guide](#styling).
 
 <br/>
+
 ## Events
+
 
 <table>
 <tbody>
@@ -439,7 +442,7 @@ or in group mode with `activeWrapperClass` prop :
 <br/>
 <br/>
 
-##  Contribute :
+##  Contribute
 
 You can help me and contribute for :
 
