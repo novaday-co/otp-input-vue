@@ -106,7 +106,7 @@ just import to your component :
 	</template>
 
 	<script>
-	import  OtpInput  from  "./components/OtpInput.vue";
+	import  OtpInput  from  "otp-input-vue2";
 
 	export default {
 	name:"yourComponent",
