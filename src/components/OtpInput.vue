@@ -201,11 +201,9 @@ export default {
   },
   methods: {
     reset() {
-      console.log('inside reset method before resetting' , this.inputValue );
       this.inputValue = [];
       this.joinedValue = "";
 
-      console.log('inside reset method After resetting' , this.inputValue );
     },
     keydownHandler(index, e) {
       if (e.keyCode === 8 && e.target.value === "") {
