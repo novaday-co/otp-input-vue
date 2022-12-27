@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import EventBus from '@/bus';
 
 export default {
   name: "OtpInput",
@@ -129,6 +130,13 @@ export default {
         }
       }
     }
+
+    EventBus.$root.$on('vue-otp-reset' , this.reset);
+  },
+
+  beforeUnMount(){
+    EventBus.$root.$off('vue-otp-reset' , this.reset);
+
   },
   computed: {
     wrapperStyle() {
@@ -192,6 +200,13 @@ export default {
     },
   },
   methods: {
+    reset() {
+      console.log('inside reset method before resetting' , this.inputValue );
+      this.inputValue = [];
+      this.joinedValue = "";
+
+      console.log('inside reset method After resetting' , this.inputValue );
+    },
     keydownHandler(index, e) {
       if (e.keyCode === 8 && e.target.value === "") {
         this.$refs.digitInput[Math.max(0, index - 1)].focus();
